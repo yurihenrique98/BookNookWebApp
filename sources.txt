@@ -1,0 +1,15 @@
+src/main/java/dao/DBUtil.java
+src/main/java/servlets/RegisterServlet.java
+src/main/java/servlets/LoginServlet.java
+src/main/java/Repositories/BookRepository.java
+src/main/java/Repositories/UserRepository.java
+src/main/java/models/User.java
+src/main/java/com/mycompany/ae1_booknook/Order.java
+src/main/java/com/mycompany/ae1_booknook/Bookstore.java
+src/main/java/com/mycompany/ae1_booknook/Main_Menu.java
+src/main/java/com/mycompany/ae1_booknook/Book.java
+src/main/java/com/mycompany/ae1_booknook/BookNook_B.java
+src/main/java/com/mycompany/ae1_booknook/Accessories.java
+src/main/java/Entities/Category.java
+src/main/java/Entities/User.java
+src/main/java/Entities/Book.java

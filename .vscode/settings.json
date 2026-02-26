@@ -1,0 +1,7 @@
+{
+  "java.project.referencedLibraries": [
+    "/opt/homebrew/Cellar/tomcat@9/9.0.107/libexec/lib/servlet-api.jar"
+  ],
+  "java.configuration.updateBuildConfiguration": "interactive"
+}
+
