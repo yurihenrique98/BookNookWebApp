@@ -1,0 +1,14 @@
+# Ignore Maven build output
+target/
+*.class
+
+# Ignore IDE settings
+.settings/
+.project
+.classpath
+.idea/
+*.iml
+
+# Ignore Database and OS files
+*.db
+.DS_Store
