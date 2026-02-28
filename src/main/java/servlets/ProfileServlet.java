@@ -8,23 +8,15 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import dao.DBUtil;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
-/**
- * Handles viewing and updating the user profile.
- */
 public class ProfileServlet extends HttpServlet {
 
-    /**
-     * Handles GET requests to display the current user's profile information.
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -39,30 +31,25 @@ public class ProfileServlet extends HttpServlet {
 
         Map<String, String> profile = new HashMap<>();
 
-        try (Connection conn = DBUtil.getConnection()) {
-            String sql = "SELECT email, phone, address FROM users WHERE username = ?";
-            PreparedStatement stmt = conn.prepareStatement(sql);
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement("SELECT email, phone, address FROM users WHERE username = ?")) {
+            
             stmt.setString(1, username);
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                profile.put("email", rs.getString("email"));
-                profile.put("phone", rs.getString("phone"));
-                profile.put("address", rs.getString("address"));
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    profile.put("email", rs.getString("email"));
+                    profile.put("phone", rs.getString("phone") != null ? rs.getString("phone") : "");
+                    profile.put("address", rs.getString("address") != null ? rs.getString("address") : "");
+                }
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         request.setAttribute("profile", profile);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("profile.jsp");
-        dispatcher.forward(request, response);
+        request.getRequestDispatcher("profile.jsp").forward(request, response);
     }
 
-    /**
-     * Handles POST requests to update the user's profile information.
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -82,31 +69,32 @@ public class ProfileServlet extends HttpServlet {
 
         try (Connection conn = DBUtil.getConnection()) {
             String sql;
-            PreparedStatement stmt;
-
             if (newPassword != null && !newPassword.trim().isEmpty()) {
                 sql = "UPDATE users SET email=?, phone=?, address=?, password=? WHERE username=?";
-                stmt = conn.prepareStatement(sql);
-                stmt.setString(1, email);
-                stmt.setString(2, phone);
-                stmt.setString(3, address);
-                stmt.setString(4, newPassword);
-                stmt.setString(5, username);
+                try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                    stmt.setString(1, email);
+                    stmt.setString(2, phone);
+                    stmt.setString(3, address);
+                    stmt.setString(4, newPassword);
+                    stmt.setString(5, username);
+                    stmt.executeUpdate();
+                }
             } else {
                 sql = "UPDATE users SET email=?, phone=?, address=? WHERE username=?";
-                stmt = conn.prepareStatement(sql);
-                stmt.setString(1, email);
-                stmt.setString(2, phone);
-                stmt.setString(3, address);
-                stmt.setString(4, username);
+                try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                    stmt.setString(1, email);
+                    stmt.setString(2, phone);
+                    stmt.setString(3, address);
+                    stmt.setString(4, username);
+                    stmt.executeUpdate();
+                }
             }
 
-            stmt.executeUpdate();
-            response.sendRedirect("profile.jsp?success=1");
+            response.sendRedirect("profile?success=1");
 
         } catch (SQLException e) {
             e.printStackTrace();
-            response.sendRedirect("profile.jsp?error=1");
+            response.sendRedirect("profile?error=1");
         }
     }
 }

@@ -1,45 +1,50 @@
 package servlets;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
-/**
- * Servlet to remove an item from the user's cart based on the item index.
- */
 public class RemoveFromCartServlet extends HttpServlet {
 
-    /**
-     * Handles POST requests to remove an item from the cart.
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // Get the index of the item to remove from the request
-        int index = Integer.parseInt(request.getParameter("index"));
+        String bookIdStr = request.getParameter("bookId");
+        
+        if (bookIdStr != null) {
+            int bookId = Integer.parseInt(bookIdStr);
+            HttpSession session = request.getSession();
 
-        // Retrieve the session and the cart list
-        HttpSession session = request.getSession();
+            @SuppressWarnings("unchecked")
+            List<Map<String, Object>> cart = (List<Map<String, Object>>) session.getAttribute("cart");
 
-        @SuppressWarnings("unchecked") // Suppress unchecked cast warning
-        List<Map<String, Object>> cart = (List<Map<String, Object>>) session.getAttribute("cart");
+            if (cart != null) {
 
-        // Remove item from cart if index is valid
-        if (cart != null && index >= 0 && index < cart.size()) {
-            cart.remove(index);
+                Iterator<Map<String, Object>> iterator = cart.iterator();
+                while (iterator.hasNext()) {
+                    Map<String, Object> item = iterator.next();
+                    if ((int) item.get("bookId") == bookId) {
+                        iterator.remove();
+                        break; 
+                    }
+                }
+ 
+                if (cart.isEmpty()) {
+                    session.removeAttribute("cart");
+                } else {
+                    session.setAttribute("cart", cart);
+                }
+            }
         }
 
-        // Update the session with the modified cart
-        session.setAttribute("cart", cart);
-
-        // Redirect to the cart page
         response.sendRedirect("cart.jsp");
     }
 }

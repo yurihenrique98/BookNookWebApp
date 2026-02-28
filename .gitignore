@@ -1,14 +1,24 @@
-# Ignore Maven build output
+# --- Build Output ---
 target/
+bin/
+out/
+build/
 *.class
+*.war
 
-# Ignore IDE settings
+# --- VS Code & IDEs ---
+.vscode/
 .settings/
 .project
 .classpath
 .idea/
 *.iml
+.nb-vars
 
-# Ignore Database and OS files
-*.db
 .DS_Store
+.AppleDouble
+.LSOverride
+
+# --- Database & Logs ---
+*.db
+*.log

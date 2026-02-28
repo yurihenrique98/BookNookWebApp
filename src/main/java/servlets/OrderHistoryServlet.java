@@ -10,31 +10,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import dao.DBUtil;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
-/**
- * This servlet handles displaying the order history for a logged-in user.
- * It retrieves all past orders from the database and forwards them to the order history JSP.
- */
 public class OrderHistoryServlet extends HttpServlet {
 
-    /**
-     * Handles GET requests to display a user's order history.
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // Retrieve the logged-in username from the session
-        String username = (String) request.getSession().getAttribute("username");
+        HttpSession session = request.getSession();
+        String username = (String) session.getAttribute("username");
+        String role = (String) session.getAttribute("role");
 
-        // Redirect to login page if user is not logged in
         if (username == null) {
             response.sendRedirect("login.jsp");
             return;
@@ -43,30 +35,40 @@ public class OrderHistoryServlet extends HttpServlet {
         List<Map<String, Object>> orders = new ArrayList<>();
 
         try (Connection conn = DBUtil.getConnection()) {
-            // Query to get all orders for the current user
-            String sql = "SELECT * FROM orders WHERE username = ? ORDER BY order_date DESC";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, username);
-            ResultSet rs = stmt.executeQuery();
+            String sql;
+            PreparedStatement stmt;
 
-            // Iterate through the result set and add each order to the list
-            while (rs.next()) {
-                Map<String, Object> order = new HashMap<>();
-                order.put("id", rs.getInt("id"));
-                order.put("total", rs.getDouble("total"));
-                order.put("date", rs.getString("order_date"));
-                orders.add(order);
+            if ("admin".equalsIgnoreCase(role)) {
+                sql = "SELECT id, total, date, username FROM orders ORDER BY date DESC";
+                stmt = conn.prepareStatement(sql);
+            } else {
+                sql = "SELECT id, total, date FROM orders WHERE username = ? ORDER BY date DESC";
+                stmt = conn.prepareStatement(sql);
+                stmt.setString(1, username);
             }
 
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Map<String, Object> order = new HashMap<>();
+                    order.put("id", rs.getInt("id"));
+                    order.put("total", rs.getDouble("total"));
+                    order.put("date", rs.getString("date")); 
+
+                    if ("admin".equalsIgnoreCase(role)) {
+                        order.put("customer", rs.getString("username"));
+                    }
+                    
+                    orders.add(order);
+                }
+            }
+            stmt.close();
+
         } catch (SQLException e) {
-            e.printStackTrace(); // Log SQL errors
+            e.printStackTrace();
+            request.setAttribute("error", "Could not retrieve order history.");
         }
 
-        // Set the orders list as a request attribute for the JSP
         request.setAttribute("orders", orders);
-
-        // Forward the request to the order history JSP page
-        RequestDispatcher dispatcher = request.getRequestDispatcher("order_history.jsp");
-        dispatcher.forward(request, response);
+        request.getRequestDispatcher("order_history.jsp").forward(request, response);
     }
 }

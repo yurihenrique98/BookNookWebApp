@@ -2,59 +2,70 @@ package servlets;
 
 import java.io.IOException;
 import java.util.List;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import Repositories.UserRepository;
 import models.User;
 
-/**
- * Servlet for managing users through the admin interface.
- * Handles listing users and deactivating accounts.
- */
 public class AdminUserServlet extends HttpServlet {
 
-    // Repository to handle user-related DB operations
-    UserRepository repo = new UserRepository();
+    private UserRepository repo = new UserRepository();
 
-    /**
-     * Handles GET requests to retrieve and display filtered user list.
-     * Sends data to 'admin_users.jsp'.
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String filter = request.getParameter("filter");
-        if (filter == null) filter = "";
+        HttpSession session = request.getSession();
+        String role = (String) session.getAttribute("role");
+        
+        if (role == null || !role.equalsIgnoreCase("admin")) {
+            response.sendRedirect("login.jsp?error=unauthorized");
+            return;
+        }
 
-        // Fetch filtered user list
+        String filter = request.getParameter("filter");
+        if (filter == null) {
+            filter = "";
+        }
+
         List<User> users = repo.getAllUsers(filter);
 
-        // Attach users to request scope and forward to JSP
         request.setAttribute("users", users);
+        request.setAttribute("currentFilter", filter); 
         request.getRequestDispatcher("admin_users.jsp").forward(request, response);
     }
 
-    /**
-     * Handles POST requests to perform user actions 
-     * Redirects back to the admin user management page.
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String action = request.getParameter("action");
-
-        if ("deactivate".equals(action)) {
-            int id = Integer.parseInt(request.getParameter("id"));
-            repo.deactivateUser(id); // Set user as inactive
+        HttpSession session = request.getSession();
+        if (!"admin".equalsIgnoreCase((String) session.getAttribute("role"))) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN); 
+            return;
         }
 
-        // Refresh page after action
+        String action = request.getParameter("action");
+        String idStr = request.getParameter("id");
+
+        if (idStr != null && !idStr.isEmpty()) {
+            try {
+                int id = Integer.parseInt(idStr);
+                
+                if ("deactivate".equals(action)) {
+                    repo.deactivateUser(id); 
+                } else if ("activate".equals(action)) {
+                    repo.activateUser(id); 
+                }
+            } catch (NumberFormatException e) {
+                System.err.println("Invalid User ID received in AdminUserServlet: " + idStr);
+            }
+        }
+
         response.sendRedirect("adminUser");
     }
 }

@@ -2,48 +2,49 @@
 <%@ page import="models.Book" %>
 
 <%
-    // Get the book from the request and determine action
+    // Ensure we don't crash if the attribute is missing
     Book book = (Book) request.getAttribute("book");
-    String action = (book == null) ? "add" : "update";
+    boolean isEdit = (book != null);
+    String action = isEdit ? "update" : "add";
 %>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title><%= action.equals("add") ? "Add Book" : "Edit Book" %></title>
+    <title><%= isEdit ? "Edit Book" : "Add Book" %></title>
+    <style>
+        label { display: inline-block; width: 100px; margin-bottom: 10px; }
+        input { margin-bottom: 10px; }
+    </style>
 </head>
 <body>
-    <h2><%= action.equals("add") ? " Add New Book" : " Edit Book" %></h2>
+    <h2><%= isEdit ? "Edit Existing Book" : "Add New Book" %></h2>
 
     <form method="post" action="adminBook">
-        <!-- Action type -->
         <input type="hidden" name="action" value="<%= action %>">
 
-        <% if (book != null) { %>
-            <!-- Include ID for update -->
+        <% if (isEdit) { %>
             <input type="hidden" name="id" value="<%= book.getId() %>">
         <% } %>
 
-        <!-- Input fields -->
         <label>Title:</label>
-        <input type="text" name="title" value="<%= book != null ? book.getTitle() : "" %>" required><br><br>
+        <input type="text" name="title" value="<%= isEdit ? book.getTitle() : "" %>" required><br>
 
         <label>Author:</label>
-        <input type="text" name="author" value="<%= book != null ? book.getAuthor() : "" %>" required><br><br>
+        <input type="text" name="author" value="<%= isEdit ? book.getAuthor() : "" %>" required><br>
 
         <label>Category:</label>
-        <input type="text" name="category" value="<%= book != null ? book.getCategory() : "" %>" required><br><br>
+        <input type="text" name="category" value="<%= isEdit ? book.getCategory() : "" %>" required><br>
 
         <label>Price (£):</label>
-        <input type="number" step="0.01" name="price" value="<%= book != null ? book.getPrice() : "" %>" required><br><br>
+        <input type="number" step="0.01" name="price" value="<%= isEdit ? book.getPrice() : "" %>" required><br>
 
         <label>Stock:</label>
-        <input type="number" name="stock" value="<%= book != null ? book.getStock() : "" %>" required><br><br>
+        <input type="number" name="stock" value="<%= isEdit ? book.getStock() : "" %>" required><br>
 
-        <!-- Submit -->
-        <input type="submit" value="<%= action.equals("add") ? "Add Book" : "Update Book" %>">
+        <input type="submit" value="<%= isEdit ? "Update Book" : "Add Book" %>">
     </form>
 
-    <p><a href="adminBook"> Back to Book List</a></p>
+    <p><a href="adminBook">Back to Book List</a></p>
 </body>
 </html>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="models.CategoryTest" time="0.024" tests="2" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="models.CategoryTest" time="0.03" tests="2" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="24"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
-    <property name="java.class.path" value="/Users/yurihenrique98/Desktop/AE2_RESIT/BookNookWebApp/target/test-classes:/Users/yurihenrique98/Desktop/AE2_RESIT/BookNookWebApp/target/classes:/Users/yurihenrique98/.m2/repository/javax/servlet/javax.servlet-api/4.0.1/javax.servlet-api-4.0.1.jar:/Users/yurihenrique98/.m2/repository/org/xerial/sqlite-jdbc/3.36.0.3/sqlite-jdbc-3.36.0.3.jar:/Users/yurihenrique98/.m2/repository/junit/junit/4.13.2/junit-4.13.2.jar:/Users/yurihenrique98/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:"/>
+    <property name="java.class.path" value="/Volumes/Extreme_SSD/Folders/Uni_Material/2nd_Year /First_part/Object _Oriented _Design_and_Development/AE2_RESIT/BookNook/BookNookWebApp/target/test-classes:/Volumes/Extreme_SSD/Folders/Uni_Material/2nd_Year /First_part/Object _Oriented _Design_and_Development/AE2_RESIT/BookNook/BookNookWebApp/target/classes:/Users/yurihenrique98/.m2/repository/jakarta/servlet/jakarta.servlet-api/6.0.0/jakarta.servlet-api-6.0.0.jar:/Users/yurihenrique98/.m2/repository/org/xerial/sqlite-jdbc/3.45.1.0/sqlite-jdbc-3.45.1.0.jar:/Users/yurihenrique98/.m2/repository/org/slf4j/slf4j-api/1.7.36/slf4j-api-1.7.36.jar:/Users/yurihenrique98/.m2/repository/jakarta/servlet/jsp/jstl/jakarta.servlet.jsp.jstl-api/3.0.0/jakarta.servlet.jsp.jstl-api-3.0.0.jar:/Users/yurihenrique98/.m2/repository/jakarta/el/jakarta.el-api/5.0.0/jakarta.el-api-5.0.0.jar:/Users/yurihenrique98/.m2/repository/org/glassfish/web/jakarta.servlet.jsp.jstl/3.0.1/jakarta.servlet.jsp.jstl-3.0.1.jar:/Users/yurihenrique98/.m2/repository/junit/junit/4.13.2/junit-4.13.2.jar:/Users/yurihenrique98/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:"/>
     <property name="java.vm.vendor" value="Homebrew"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="java.vendor.url" value="https://github.com/Homebrew/homebrew-core/issues"/>
@@ -12,10 +12,10 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="GB"/>
     <property name="sun.boot.library.path" value="/opt/homebrew/Cellar/openjdk/24.0.2/libexec/openjdk.jdk/Contents/Home/lib"/>
-    <property name="sun.java.command" value="/Users/yurihenrique98/Desktop/AE2_RESIT/BookNookWebApp/target/surefire/surefirebooter-20250807194625123_3.jar /Users/yurihenrique98/Desktop/AE2_RESIT/BookNookWebApp/target/surefire 2025-08-07T19-46-25_073-jvmRun1 surefire-20250807194625123_1tmp surefire_0-20250807194625123_2tmp"/>
+    <property name="sun.java.command" value="/Volumes/Extreme_SSD/Folders/Uni_Material/2nd_Year /First_part/Object _Oriented _Design_and_Development/AE2_RESIT/BookNook/BookNookWebApp/target/surefire/surefirebooter-20260228210652111_3.jar /Volumes/Extreme_SSD/Folders/Uni_Material/2nd_Year /First_part/Object _Oriented _Design_and_Development/AE2_RESIT/BookNook/BookNookWebApp/target/surefire 2026-02-28T21-06-52_055-jvmRun1 surefire-20260228210652111_1tmp surefire_0-20260228210652111_2tmp"/>
     <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="jdk.debug" value="release"/>
-    <property name="surefire.test.class.path" value="/Users/yurihenrique98/Desktop/AE2_RESIT/BookNookWebApp/target/test-classes:/Users/yurihenrique98/Desktop/AE2_RESIT/BookNookWebApp/target/classes:/Users/yurihenrique98/.m2/repository/javax/servlet/javax.servlet-api/4.0.1/javax.servlet-api-4.0.1.jar:/Users/yurihenrique98/.m2/repository/org/xerial/sqlite-jdbc/3.36.0.3/sqlite-jdbc-3.36.0.3.jar:/Users/yurihenrique98/.m2/repository/junit/junit/4.13.2/junit-4.13.2.jar:/Users/yurihenrique98/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:"/>
+    <property name="surefire.test.class.path" value="/Volumes/Extreme_SSD/Folders/Uni_Material/2nd_Year /First_part/Object _Oriented _Design_and_Development/AE2_RESIT/BookNook/BookNookWebApp/target/test-classes:/Volumes/Extreme_SSD/Folders/Uni_Material/2nd_Year /First_part/Object _Oriented _Design_and_Development/AE2_RESIT/BookNook/BookNookWebApp/target/classes:/Users/yurihenrique98/.m2/repository/jakarta/servlet/jakarta.servlet-api/6.0.0/jakarta.servlet-api-6.0.0.jar:/Users/yurihenrique98/.m2/repository/org/xerial/sqlite-jdbc/3.45.1.0/sqlite-jdbc-3.45.1.0.jar:/Users/yurihenrique98/.m2/repository/org/slf4j/slf4j-api/1.7.36/slf4j-api-1.7.36.jar:/Users/yurihenrique98/.m2/repository/jakarta/servlet/jsp/jstl/jakarta.servlet.jsp.jstl-api/3.0.0/jakarta.servlet.jsp.jstl-api-3.0.0.jar:/Users/yurihenrique98/.m2/repository/jakarta/el/jakarta.el-api/5.0.0/jakarta.el-api-5.0.0.jar:/Users/yurihenrique98/.m2/repository/org/glassfish/web/jakarta.servlet.jsp.jstl/3.0.1/jakarta.servlet.jsp.jstl-3.0.1.jar:/Users/yurihenrique98/.m2/repository/junit/junit/4.13.2/junit-4.13.2.jar:/Users/yurihenrique98/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="/Users/yurihenrique98"/>
     <property name="user.language" value="en"/>
@@ -23,20 +23,20 @@
     <property name="java.version.date" value="2025-07-15"/>
     <property name="java.home" value="/opt/homebrew/Cellar/openjdk/24.0.2/libexec/openjdk.jdk/Contents/Home"/>
     <property name="file.separator" value="/"/>
-    <property name="basedir" value="/Users/yurihenrique98/Desktop/AE2_RESIT/BookNookWebApp"/>
+    <property name="basedir" value="/Volumes/Extreme_SSD/Folders/Uni_Material/2nd_Year /First_part/Object _Oriented _Design_and_Development/AE2_RESIT/BookNook/BookNookWebApp"/>
     <property name="java.vm.compressedOopsMode" value="Zero based"/>
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="apple.awt.application.name" value="ForkedBooter"/>
-    <property name="surefire.real.class.path" value="/Users/yurihenrique98/Desktop/AE2_RESIT/BookNookWebApp/target/surefire/surefirebooter-20250807194625123_3.jar"/>
+    <property name="surefire.real.class.path" value="/Volumes/Extreme_SSD/Folders/Uni_Material/2nd_Year /First_part/Object _Oriented _Design_and_Development/AE2_RESIT/BookNook/BookNookWebApp/target/surefire/surefirebooter-20260228210652111_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.runtime.version" value="24.0.2"/>
     <property name="user.name" value="yurihenrique98"/>
     <property name="stdout.encoding" value="UTF-8"/>
     <property name="path.separator" value=":"/>
-    <property name="os.version" value="15.6"/>
+    <property name="os.version" value="26.3"/>
     <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
     <property name="file.encoding" value="UTF-8"/>
     <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
@@ -45,7 +45,7 @@
     <property name="java.vendor.url.bug" value="https://github.com/Homebrew/homebrew-core/issues"/>
     <property name="java.io.tmpdir" value="/var/folders/qz/lpp3zqqd69v1x8hp7gl9fy780000gn/T/"/>
     <property name="java.version" value="24.0.2"/>
-    <property name="user.dir" value="/Users/yurihenrique98/Desktop/AE2_RESIT/BookNookWebApp"/>
+    <property name="user.dir" value="/Volumes/Extreme_SSD/Folders/Uni_Material/2nd_Year /First_part/Object _Oriented _Design_and_Development/AE2_RESIT/BookNook/BookNookWebApp"/>
     <property name="os.arch" value="aarch64"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
     <property name="native.encoding" value="UTF-8"/>

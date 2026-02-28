@@ -1,11 +1,5 @@
 package models;
 
-/**
- * Represents an accessory product in the BookNook system.
- * Connected to a database table called `accessories`.
- * 
- * Author: Yuri Henrique
- */
 public class Accessories {
     private int id;
     private String name;
@@ -25,23 +19,18 @@ public class Accessories {
         this.stock = stock;
     }
 
-    public int getId() {
-        return id;
-    }
+    public int getId() { return id; }
+    public String getName() { return name; }
+    public double getPrice() { return price; }
+    public int getStock() { return stock; }
 
-    public String getName() {
-        return name;
-    }
+    public void setId(int id) { this.id = id; }
+    public void setName(String name) { this.name = name; }
+    public void setPrice(double price) { this.price = price; }
+    public void setStock(int stock) { this.stock = stock; }
 
-    public double getPrice() {
-        return price;
-    }
-
-    public int getStock() {
-        return stock;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
+    @Override
+    public String toString() {
+        return "Accessory [id=" + id + ", name=" + name + ", price=" + price + ", stock=" + stock + "]";
     }
 }

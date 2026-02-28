@@ -6,66 +6,68 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import Repositories.BookRepository;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import models.Book;
 
-/**
- * Servlet to handle adding books to the user's shopping cart.
- */
 public class AddToCartServlet extends HttpServlet {
+    
+    private BookRepository bookRepo = new BookRepository();
 
     @Override
-    @SuppressWarnings("unchecked") // Suppress unchecked cast warning
+    @SuppressWarnings("unchecked")
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // Retrieve parameters from the form submission
-        int bookId = Integer.parseInt(request.getParameter("bookId"));
-        String title = request.getParameter("title");
-        double price = Double.parseDouble(request.getParameter("price"));
-        int quantity = Integer.parseInt(request.getParameter("quantity"));
+        try {
 
-        // Get or create the HTTP session for the user
-        HttpSession session = request.getSession();
+            int bookId = Integer.parseInt(request.getParameter("bookId"));
+            String qtyStr = request.getParameter("quantity");
+            int quantityToAdd = (qtyStr != null) ? Integer.parseInt(qtyStr) : 1;
 
-        // Try to retrieve the cart from session
-        List<Map<String, Object>> cart = (List<Map<String, Object>>) session.getAttribute("cart");
-
-        // If cart doesn't exist, create a new one
-        if (cart == null) {
-            cart = new ArrayList<>();
-        }
-
-        boolean found = false;
-
-        // Check if the item already exists in the cart
-        for (Map<String, Object> item : cart) {
-            if ((int) item.get("bookId") == bookId) {
-                // If found, increase the quantity
-                int existingQty = (int) item.get("quantity");
-                item.put("quantity", existingQty + quantity);
-                found = true;
-                break;
+            Book book = bookRepo.getBookById(bookId);
+            
+            if (book == null) {
+                response.sendRedirect("home?error=book_not_found");
+                return;
             }
+
+            HttpSession session = request.getSession();
+            List<Map<String, Object>> cart = (List<Map<String, Object>>) session.getAttribute("cart");
+
+            if (cart == null) {
+                cart = new ArrayList<>();
+            }
+
+            boolean found = false;
+            for (Map<String, Object> item : cart) {
+                if ((int) item.get("bookId") == bookId) {
+                    int existingQty = (int) item.get("quantity");
+                    item.put("quantity", existingQty + quantityToAdd);
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                Map<String, Object> item = new HashMap<>();
+                item.put("bookId", book.getId());
+                item.put("title", book.getTitle()); 
+                item.put("price", book.getPrice());  
+                item.put("quantity", quantityToAdd);
+                cart.add(item);
+            }
+
+            session.setAttribute("cart", cart);
+
+            response.sendRedirect("home?success=added");
+
+        } catch (NumberFormatException e) {
+            response.sendRedirect("home?error=invalid_data");
         }
-
-        // If item not in cart, add it as a new entry
-        if (!found) {
-            Map<String, Object> item = new HashMap<>();
-            item.put("bookId", bookId);
-            item.put("title", title);
-            item.put("price", price);
-            item.put("quantity", quantity);
-            cart.add(item);
-        }
-
-        // Save updated cart in session
-        session.setAttribute("cart", cart);
-
-        // Redirect user to the search page
-        response.sendRedirect("search.jsp");
     }
 }
