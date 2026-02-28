@@ -4,6 +4,11 @@
 
 A Java-based E-commerce platform for book lovers. This project demonstrates a full-stack MVC architecture using Java Servlets, JSP, and MySQL.
 
+### Getting Started
+1. Import the `booknook_setup.sql` file into your database manager.
+2. Update `DBUtil.java` with your local database credentials.
+3. Deploy to Tomcat and enjoy!
+4. 
 ## Features
 * **User Authentication:** Secure login and registration.
 * **Catalog Management:** Browse and search for books.
